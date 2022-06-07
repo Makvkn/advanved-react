@@ -1,29 +1,40 @@
 import React from 'react';
-import {Routes, Route, Navigate} from "react-router-dom";
-import {privateRoutes, publicRoutes, RouteNames} from "../router";
+import {Route, Routes} from "react-router-dom";
+import {privateRoutes, publicRoutes} from "../router";
 import {useTypedSelector} from "../hooks/useTypedSelector";
-import Login from "../pages/Login";
+import Login from '../pages/Login';
 import Event from "../pages/Event";
-
 const AppRouter = () => {
-
     const {isAuth} = useTypedSelector(state => state.auth)
     return (
-        isAuth
-            ?
-            <Routes>
-                {privateRoutes.map(route =>
-                <Route path={route.path} key={route.path} element={<route.element />} />)}
-                <Route element={<Event/>} index />
-            </Routes>
-            :
-            <Routes>
-                {publicRoutes.map(route =>
-                    <Route  path={route.path}  key={route.path} element={<route.element />} />)}
+        <div>
+            {isAuth
+                ?
+                <Routes>
+                    {publicRoutes.map(route =>
+                        <Route
+                            path={route.path}
+                            element={<route.element/>}
+                            key={route.path}
+                        />
+                    )}
+                    <Route element={<Event/>} index />
+                </Routes>
+                :
+                <Routes>
+                    {privateRoutes.map(route =>
+                        <Route
+                            path={route.path}
+                            element={<route.element/>}
+                            key={route.path}
+                        />
+                    )}
                     <Route element={<Login/>} index />
-            </Routes>
+                </Routes>}
+        </div>
 
     );
 };
 
 export default AppRouter;
+
